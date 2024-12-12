@@ -2,7 +2,7 @@
     
   <h1 align="center">RUPANTOR - An AI SaaS Platform</h1>
 
-  <br />
+  <br/>
 
   <div>
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
@@ -10,9 +10,9 @@
     <img src="https://img.shields.io/badge/-Stripe-black?style=for-the-badge&logoColor=white&logo=stripe&color=008CDD" alt="stripe" />
     <img src="https://img.shields.io/badge/-MongoDB-black?style=for-the-badge&logoColor=white&logo=mongodb&color=47A248" alt="mongodb" />
     <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
-  </div>
+  </div><br>
 
-    </br>
+    
 
    <div align="center">
      A REAL Software-as-a-Service App with AI Features; Payments & Credits System that You Might Even Turn Into a Side Income or Business Idea Using Next.js 14, Clerk, MongoDB, Cloudinary AI, and Stripe.
