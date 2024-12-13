@@ -1,6 +1,6 @@
 {
   "name": "RUPANTOR",
-  "version": "0.1.0",
+  "version": "_v.13.12.24",
   "private": true,
   "scripts": {
     "dev": "next dev",
