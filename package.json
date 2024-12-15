@@ -1,6 +1,6 @@
 {
-  "name": "RUPANTOR",
-  "version": "_v.13.12.24",
+  "name": "RUPANTOR-AI",
+  "version": "_-v.16.12.24",
   "private": true,
   "scripts": {
     "dev": "next dev",
