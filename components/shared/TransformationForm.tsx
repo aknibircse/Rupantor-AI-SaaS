@@ -207,7 +207,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
                 value={field.value}
               >
                 <SelectTrigger className="select-field">
-                  <SelectValue placeholder="Select size" />
+                  <SelectValue placeholder="Select Size" />
                 </SelectTrigger>
                 <SelectContent>
                   {Object.keys(aspectRatioOptions).map((key) => (
@@ -227,7 +227,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
               control={form.control}
               name="prompt"
               formLabel={
-                type === 'remove' ? 'Object to remove' : 'Object to recolor'
+                type === 'remove' ? 'Object To Remove' : 'Object To Recolor'
               }
               className="w-full"
               render={({ field }) => (
