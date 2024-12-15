@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
@@ -15,6 +14,7 @@ export async function createUser(user: CreateUserParams) {
 
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
+    console.error("Error creating user:", error);
     handleError(error);
   }
 }
@@ -26,10 +26,14 @@ export async function getUserById(userId: string) {
 
     const user = await User.findOne({ clerkId: userId });
 
-    if (!user) throw new Error("User not found");
+    if (!user) {
+      console.error("User not found for userId:", userId);
+      throw new Error("User not found");
+    }
 
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
+    console.error("Error fetching user by ID:", error);
     handleError(error);
   }
 }
@@ -43,10 +47,14 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
       new: true,
     });
 
-    if (!updatedUser) throw new Error("User update failed");
-    
+    if (!updatedUser) {
+      console.error("Failed to update user for clerkId:", clerkId);
+      throw new Error("User update failed");
+    }
+
     return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {
+    console.error("Error updating user:", error);
     handleError(error);
   }
 }
@@ -56,19 +64,19 @@ export async function deleteUser(clerkId: string) {
   try {
     await connectToDatabase();
 
-    // Find user to delete
     const userToDelete = await User.findOne({ clerkId });
 
     if (!userToDelete) {
+      console.error("User not found for deletion with clerkId:", clerkId);
       throw new Error("User not found");
     }
 
-    // Delete user
     const deletedUser = await User.findByIdAndDelete(userToDelete._id);
     revalidatePath("/");
 
     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
   } catch (error) {
+    console.error("Error deleting user:", error);
     handleError(error);
   }
 }
@@ -80,14 +88,18 @@ export async function updateCredits(userId: string, creditFee: number) {
 
     const updatedUserCredits = await User.findOneAndUpdate(
       { _id: userId },
-      { $inc: { creditBalance: creditFee }},
+      { $inc: { creditBalance: creditFee } },
       { new: true }
-    )
+    );
 
-    if(!updatedUserCredits) throw new Error("User credits update failed");
+    if (!updatedUserCredits) {
+      console.error("Failed to update credits for userId:", userId);
+      throw new Error("User credits update failed");
+    }
 
     return JSON.parse(JSON.stringify(updatedUserCredits));
   } catch (error) {
+    console.error("Error updating user credits:", error);
     handleError(error);
   }
 }
