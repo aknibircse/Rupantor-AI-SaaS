@@ -1,11 +1,11 @@
 {
   "name": "RUPANTOR-AI",
-  "version": "_-v.16.12.24",
+  "version": "MVP_-v.16.12.24",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "start:dev": "next dev",
+    "build:prod": "next build",
+    "start:prod": "next start",
     "lint": "next lint"
   },
   "dependencies": {

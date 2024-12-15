@@ -8,7 +8,7 @@ import Transaction from '../database/models/transaction.model';
 import { updateCredits } from './user.actions';
 
 export async function checkoutCredits(transaction: CheckoutTransactionParams) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY!);
 
   const amount = Number(transaction.amount) * 100;
 
@@ -31,8 +31,8 @@ export async function checkoutCredits(transaction: CheckoutTransactionParams) {
       buyerId: transaction.buyerId,
     },
     mode: 'payment',
-    success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
+    success_url: `${process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL}/profile`,
+    cancel_url: `${process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL}/`,
   })
 
   redirect(session.url!)

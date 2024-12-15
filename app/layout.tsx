@@ -12,7 +12,7 @@ const IBMPlex = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "RUPANTOR",
+  title: "Rupantor",
   description: "An AI-Powered Image Generator.",
 };
 

@@ -28,7 +28,6 @@
 3. 🔋 [Features](#features)
 4. 🤸 [Quick Start](#quick-start)
 5. 🕸️ [Snippets](#snippets)
-6. 🔗 [Links](#links)
 
 
 </br>
@@ -84,8 +83,7 @@ RUPANTOR is an AI Image SaaS Platform that Excels in Image Processing Capabiliti
 
 👉 **Responsive UI/UX**: A Seamless Experience Across Devices with a User-Friendly Interface.
 
-
-* And Many More, Including Code Architecture and Reusability.
+👉 And Many More, Including Code Architecture and Reusability.
 
 </br>
 
@@ -105,21 +103,21 @@ Make Sure, You have The Following Dependancies Installed on Your Machine:
 
 </br>
 
-**Cloning the Repository**
+**Cloning The Repository**
 
 ```bash
-git https://github.com/aknibircse/RUPANTAR-AI-IMAGINIFY-AI-BASED-FULLSTACK-APPLICATION.git
-cd RUPANTAR-AI-IMAGINIFY-AI-BASED-FULLSTACK-APPLICATION
+git clone https://github.com/aknibircse/RUPANTAR_An-AI-Based-SaaS.git
+cd RUPANTAR_An-AI-Based-SaaS
 ```
 
 </br>
 
 **Installation**
 
-Install The Project Dependencies Using NPM: *(*Reuired NodeJS_V.20.9.0_LTS)*
+Install The Project Dependencies Using NPM: *(* *Reuired NodeJS_V.20.9.0_LTS* *)*
 
 ```bash
-npm run dev
+npm install --save-dev
 ```
 
 </br>
@@ -129,40 +127,70 @@ npm run dev
 Create a New File Named `.env.local` in The Root of Your Project & Add The Following Variables with Their Values:
 
 ```env
-#NEXT
-NEXT_PUBLIC_SERVER_URL=
+# ENVIRONMENT CONFIGURATION MODE [ USE 0 FOR DEVELOPMENT & 1 FOR PRODUCTION ]
 
-#MONGODB
-MONGODB_URL=
+NODE_ENV = 
 
-#CLERK
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-WEBHOOK_SECRET=
+# NEXT.JS CONFIGURATION
 
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+NEXT_PUBLIC_CLERK_SIGN_IN_URL = 
+NEXT_PUBLIC_CLERK_SIGN_UP_URL = 
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL = 
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL = 
 
-#CLOUDINARY
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+# MONGODB CONFIGURATION
 
-#STRIPE
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+MONGODB_URL = 
+
+# CLERK CONFIGURATION
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = 
+CLERK_SECRET_KEY = 
+WEBHOOK_SECRET = 
+
+# CLOUDINARY CONFIGURATION
+
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = 
+NEXT_PUBLIC_CLOUDINARY_API_KEY = 
+NEXT_PUBLIC_CLOUDINARY_API_SECRET = 
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET = 
+NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME = 
+
+# STRIPE CONFIGURATION
+
+NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL = 
+NEXT_PUBLIC_STRIPE_SECRET_KEY = 
+NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET = 
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = 
 ```
+<br/>
 
-Replace The Placeholder Values with Your Actual Respective Account Credentials. You can Obtain These Credentials by Signing-up on The [Clerk](https://clerk.com/), [MongoDB](https://www.mongodb.com/), [Cloudinary](https://cloudinary.com/) and [Stripe](https://stripe.com).
+Replace The Placeholder Values with Your Actual Respective Account Credentials. You can Obtain These Credentials by Signing-up on The ***[Clerk](https://clerk.com/)***, ***[MongoDB](https://www.mongodb.com/)***, ***[Cloudinary](https://cloudinary.com/)*** and ***[Stripe](https://stripe.com)***.
 
-**Running the Project**
+</br>
+
+**Run This Project In Development Mode**
 
 ```bash
-npm run dev
+npm run start:dev
 ```
+
+</br>
+
+**Start Production Build Of This Project**
+
+```bash
+npm run build:prod
+```
+
+</br>
+
+**Running The Build Version Of This Project**
+
+```bash
+npm run start:prod
+```
+<br/>
 
 Open Your Browser & View The Project at: ***[http://localhost:3000](http://localhost:3000)***
 
@@ -1924,8 +1952,8 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
 
     cloudinary.config({
       cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
+      api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+      api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
       secure: true,
     })
 
@@ -2244,7 +2272,7 @@ export async function POST(request: Request) {
   const body = await request.text();
 
   const sig = request.headers.get("stripe-signature") as string;
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+  const endpointSecret = process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET!;
 
   let event;
 
@@ -2525,9 +2553,173 @@ export default Profile;
 
 </details>
 
+<details>
+<summary><code>nginx.conf</code></summary>
 
-</br>
+```conf
+server {
+    listen 80;
+    server_name rupantor.aknibir.dev;
 
-## <a name="links">🔗 Links</a>
+    # REDIRECTINGt HTTP TO HTTPS
+    return 301 https://$host$request_uri;
+    }
 
-Public Assets Used in This Project: [Click-Here](https://drive.google.com/file/d/1uv1zyCjbYBQE9qnwh2snwO0NBgoop5gz/view?usp=sharing)
+server {
+    listen 443 ssl;
+    server_name rupantor.aknibir.dev;
+
+    # SSL CONFIGURATION
+    ssl_certificate /etc/letsencrypt/live/rupantor.aknibir.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/rupantor.aknibir.dev/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384';
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+
+    # REVERSE PROXY CONFIGURATION
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+
+    # ADDITIONAL SECURITY CONFIGURATION
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    # ERROR HANDELING CONFIGURATION
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
+
+
+```
+
+</details>
+
+<details>
+<summary><code>dockerfile</code></summary>
+
+```dockerfile
+# STAGE-1: CONFIGURING DOCKER IMAGE
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# COPYING package.json & package-lock.json (IF EXISTS) FOR DPENDANCY INSTALLATION
+COPY package*.json ./
+
+# INSTALLING DEPENDENCIES
+RUN npm install
+
+# COPING REST ESSENTIALS OF THIS APP
+COPY . .
+
+# PRODUCTION BUILD FOR THIS APP 
+RUN npm run build
+
+# STAGE-2: FINAL DOCKER IMAGE BUILDS FOR THIS APP
+FROM node:18-alpine AS runner
+
+WORKDIR /app
+
+# COPY ESSENTIALS FROM BUILDER'S STAGE
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+# PORT EXPOSING FOR APP ACCESS
+EXPOSE 3000
+
+# SETTING ENVIRONMENT VARIABLE FOR PRODUCTION
+ENV NODE_ENV production
+ENV PORT 3000
+
+# RUN THIS APP IN PRODUCTION MODE
+CMD ["npm", "start:prod"]
+
+```
+
+</details>
+
+<details>
+<summary><code>docker-compose.yaml</code></summary>
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # EXPOSING PORT FOR INTERNAL COMMUNICATIONS
+    environment:
+      NODE_ENV: "${NODE_ENV}"
+      NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL: "${NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL}"
+      MONGODB_URL: "${MONGODB_URL}"
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}"
+      CLERK_SECRET_KEY: "${CLERK_SECRET_KEY}"
+      WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: "${NEXT_PUBLIC_CLERK_SIGN_IN_URL}"
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: "${NEXT_PUBLIC_CLERK_SIGN_UP_URL}"
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: "${NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}"
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: "${NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}"
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}"
+      NEXT_PUBLIC_CLOUDINARY_API_KEY: "${NEXT_PUBLIC_CLOUDINARY_API_KEY}"
+      NEXT_PUBLIC_CLOUDINARY_API_SECRET: "${NEXT_PUBLIC_CLOUDINARY_API_SECRET}"
+      NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: "${NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}"
+      NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME: "${NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME}"
+      NEXT_PUBLIC_STRIPE_SECRET_KEY: "${NEXT_PUBLIC_STRIPE_SECRET_KEY}"
+      NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET: "${NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET}"
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}"
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    command: npm start:prod  # STARTING BUILD VERSION OF THIS APP
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # MOUNT THE CUSTOM NGINX CONFIGURATION
+      - /etc/letsencrypt:/etc/letsencrypt  # MOUNT LET'S NCRYPT CERTIFICATES
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    command: /bin/bash -c "nginx -g 'daemon off;'"
+
+volumes:
+  mongodb_data:
+
+```
+
+</details>
