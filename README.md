@@ -23,22 +23,22 @@
 
 ## 📋 <a name="table">Table of Contents</a>
 
-1. 🤖 [Introduction](#introduction)
-2. ⚙️ [Tech Stack](#tech-stack)
-3. 🔋 [Features](#features)
-4. 🤸 [Quick Start](#quick-start)
-5. 🕸️ [Snippets](#snippets)
+1. 🤖 [INTRODUCTION](#introduction)
+2. ⚙️ [TECH STACK](#tech-stack)
+3. 🔋 [FEATURES](#features)
+4. 🤸 [QUICK START](#quick-start)
+5. 🕸️ [CODE SNIPPETS](#snippets)
 
 
 </br>
 
-## <a name="introduction">🤖 Introduction</a>
+## <a name="introduction">🤖 INTRODUCTION</a>
 
 RUPANTOR is an AI Image SaaS Platform that Excels in Image Processing Capabilities, Integrates a Secure Payment Infrastructure, Offers Advanced Image Search Functionalities, and Supports Multiple AI features, including Image Restoration, Recoloring, Object Removal, Generative Filling, and Background Removal.
 
 </br>
 
-## <a name="tech-stack">⚙️ Tech Stack</a>
+## <a name="tech-stack">⚙️ TECH STACK</a>
 
 - Next JS
 - TypeScript
@@ -51,7 +51,7 @@ RUPANTOR is an AI Image SaaS Platform that Excels in Image Processing Capabiliti
 
 </br>
 
-## <a name="features">🔋 Features</a>
+## <a name="features">🔋 FEATURES</a>
 
 👉 **Authentication and Authorization**: Secure User Access with Registration, Login, and Route Protection.
 
@@ -87,7 +87,7 @@ RUPANTOR is an AI Image SaaS Platform that Excels in Image Processing Capabiliti
 
 </br>
 
-## <a name="quick-start">🤸 Quick Start</a>
+## <a name="quick-start">🤸 QUICK START</a>
 
 Follow These Steps to Setup The Project Locally on Your Machine.
 
@@ -196,7 +196,7 @@ Open Your Browser & View The Project at: ***[http://localhost:3000](http://local
 
 </br>
 
-## <a name="snippets">🕸️ Snippets</a>
+## <a name="snippets">🕸️ CODE SNIPPETS</a>
 
 <details>
 <summary><code>tailwind.config.ts</code></summary>
@@ -527,7 +527,7 @@ module.exports = {
     @apply bg-red-100 text-red-900;
   }
 
-  /* Home Page */
+  /* HOME PAGE */
   .home {
     @apply sm:flex-center hidden h-72 flex-col gap-4 rounded-[20px] border bg-banner bg-cover bg-no-repeat p-10 shadow-inner;
   }
@@ -536,7 +536,7 @@ module.exports = {
     @apply h1-semibold max-w-[500px] flex-wrap text-center text-white shadow-sm;
   }
 
-  /* Credits Page */
+  /* CREDITS PAGE */
   .credits-list {
     @apply mt-11 grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-9 xl:grid-cols-3;
   }
@@ -549,7 +549,7 @@ module.exports = {
     @apply w-full rounded-full bg-purple-100 bg-cover text-purple-500 hover:text-purple-500;
   }
 
-  /* Profile Page */
+  /* PROFILE PAGE*/
   .profile {
     @apply mt-5 flex flex-col gap-5 sm:flex-row md:mt-8 md:gap-10;
   }
@@ -562,7 +562,7 @@ module.exports = {
     @apply w-full rounded-[16px] border-2 border-purple-200/20 bg-white p-5 shadow-lg shadow-purple-200/10 md:px-6 md:py-8;
   }
 
-  /* Transformation Details */
+  /* TRANSFORMATION DETAILS */
   .transformation-grid {
     @apply grid h-fit min-h-[200px] grid-cols-1 gap-5 py-8 md:grid-cols-2;
   }
@@ -571,7 +571,7 @@ module.exports = {
     @apply h-fit min-h-72 w-full rounded-[10px] border border-dashed bg-purple-100/20 object-cover p-2;
   }
 
-  /* Collection Component */
+  /* COLLECTION COMPONENT */
   .collection-heading {
     @apply md:flex-between mb-6 flex flex-col gap-5 md:flex-row;
   }
@@ -592,7 +592,7 @@ module.exports = {
     @apply flex flex-1 cursor-pointer flex-col gap-5 rounded-[16px] border-2 border-purple-200/15 bg-white p-4 shadow-xl shadow-purple-200/10 transition-all hover:shadow-purple-200/20;
   }
 
-  /* MediaUploader Component */
+  /* MEDIA UPLOADER COMPONENT */
   .media-uploader_cldImage {
     @apply h-fit min-h-72 w-full rounded-[10px] border border-dashed bg-purple-100/20 object-cover p-2;
   }
@@ -605,7 +605,7 @@ module.exports = {
     @apply rounded-[16px] bg-white  p-5 shadow-sm shadow-purple-200/50;
   }
 
-  /* Navbar Component */
+  /* NAVBAR COMPONENT */
   .header {
     @apply flex-between fixed h-16 w-full border-b-4 border-purple-100 bg-white p-5 lg:hidden;
   }
@@ -614,12 +614,12 @@ module.exports = {
     @apply mt-8 flex w-full flex-col items-start gap-5;
   }
 
-  /* Search Component */
+  /* SEARCH COMPONENT */
   .search {
     @apply flex w-full rounded-[16px] border-2 border-purple-200/20 bg-white px-4 shadow-sm shadow-purple-200/15 md:max-w-96;
   }
 
-  /* Sidebar Component */
+  /* SIDEBAR COMPONENT */
   .sidebar {
     @apply hidden h-screen w-72 bg-white p-5 shadow-md shadow-purple-200/50 lg:flex;
   }
@@ -644,7 +644,7 @@ module.exports = {
     @apply p-16-semibold flex size-full gap-4 p-4;
   }
 
-  /* TransformationForm Component */
+  /* TRANSFORMATION COMPONENT */
   .prompt-field {
     @apply flex flex-col gap-5 lg:flex-row lg:gap-10;
   }
@@ -653,7 +653,7 @@ module.exports = {
     @apply grid h-fit min-h-[200px] grid-cols-1 gap-5 py-4 md:grid-cols-2;
   }
 
-  /* TransformedImage Component */
+  /* TRANSFORMED IMAGE COMPONENT */
   .download-btn {
     @apply p-14-medium mt-2 flex items-center gap-2 px-2;
   }
@@ -1119,7 +1119,7 @@ export async function deleteUser(clerkId: string) {
   try {
     await connectToDatabase();
 
-    // Find user to delete
+    // FIND USER TO DELETE
     const userToDelete = await User.findOne({ clerkId });
 
     if (!userToDelete) {
@@ -1191,7 +1191,7 @@ export const handleError = (error: unknown) => {
   }
 };
 
-// PLACEHOLDER LOADER - while image is transforming
+// PLACEHOLDER LOADER - WHILE IMAGE IS TRANSFORMING
 const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
@@ -1214,7 +1214,7 @@ const toBase64 = (str: string) =>
 export const dataUrl = `data:image/svg+xml;base64,${toBase64(
   shimmer(1000, 1000)
 )}`;
-// ==== End
+// ==== END
 
 // FORM URL QUERY
 export const formUrlQuery = ({
@@ -1240,7 +1240,7 @@ export function removeKeysFromQuery({
     delete currentUrl[key];
   });
 
-  // Remove null or undefined values
+  // REMOVE NULL OR UNDEFINED VALUES
   Object.keys(currentUrl).forEach(
     (key) => currentUrl[key] == null && delete currentUrl[key]
   );
@@ -1492,29 +1492,29 @@ export async function POST(req: Request) {
     );
   }
 
-  // Get the headers
+  // GET THE HEADERS
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
 
-  // If there are no headers, error out
+  // IF THERE ARE NO HEADERS, ERROR OUT
   if (!svix_id || !svix_timestamp || !svix_signature) {
     return new Response("Error occured -- no svix headers", {
       status: 400,
     });
   }
 
-  // Get the body
+  // GET THE BODY
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your secret.
+  // CREATE A NEW Svix INSTANCE WITH YOUR SECRETS.
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
 
-  // Verify the payload with the headers
+  // VERIFY THE PAYLOAD WITH THE HEADERS
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -1528,7 +1528,7 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the ID and type
+  // GET THE ID AND TYPE
   const { id } = evt.data;
   const eventType = evt.type;
 
@@ -1547,7 +1547,7 @@ export async function POST(req: Request) {
 
     const newUser = await createUser(user);
 
-    // Set public metadata
+    // SET PUBLIC METADATA
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
@@ -2282,7 +2282,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Webhook error", error: err });
   }
 
-  // Get the ID and type
+  // GET THE ID AND TYPE
   const eventType = event.type;
 
   // CREATE
@@ -2350,7 +2350,7 @@ const Credits = async () => {
                 <p className="p-16-regular">{plan.credits} Credits</p>
               </div>
 
-              {/* Inclusions */}
+              {/* INCLUSIONS */}
               <ul className="flex flex-col gap-5 py-9">
                 {plan.inclusions.map((inclusion) => (
                   <li
@@ -2561,7 +2561,7 @@ server {
     listen 80;
     server_name rupantor.aknibir.dev;
 
-    # REDIRECTINGt HTTP TO HTTPS
+    # REDIRECTING HTTP TO HTTPS
     return 301 https://$host$request_uri;
     }
 
