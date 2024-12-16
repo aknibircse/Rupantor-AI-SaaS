@@ -28,7 +28,7 @@
 3. 🔋 [FEATURES](#features)
 4. 🤸 [QUICK START](#quick-start)
 5. 🕸️ [CODE SNIPPETS](#snippets)
-
+6. 📃 [LISENCE](#lisence)
 
 </br>
 
@@ -2723,3 +2723,9 @@ volumes:
 ```
 
 </details>
+
+
+## 📃 <a name="copyright">COPYRIGHT</a>
+<br/>
+
+*©* ALL RIGHTS OF THIS PROJECT IS RESERVED BY **[AK NIBIR](https://aknibir.dev)** -- 📃 UNDER **[MIT](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)** LISENCE.
