@@ -28,7 +28,7 @@
 3. 🔋 [FEATURES](#features)
 4. 🤸 [QUICK START](#quick-start)
 5. 🕸️ [CODE SNIPPETS](#snippets)
-6. 📃 [LISENCE](#lisence)
+6. 📃 [COPYRIGHT](#copyright)
 
 </br>
 
