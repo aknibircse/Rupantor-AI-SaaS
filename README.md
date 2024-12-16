@@ -2726,6 +2726,4 @@ volumes:
 <br/>
 
 ## 📃 <a name="copyright">COPYRIGHTS</a>
-<br/>
-
 *©* ALL RIGHTS OF THIS PROJECT IS RESERVED BY ***[AK NIBIR](https://aknibir.dev)*** -- 📃 UNDER ***[MIT](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)*** LISENCE.
