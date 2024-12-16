@@ -1,6 +1,6 @@
 <div align="center">
     
-  <h1 align="center">RUPANTOR - An AI SaaS Platform</h1>
+  <h1 align="center">RUPANTOR - AN AI SAAS PLATFORM</h1>
 
   <br/>
 
@@ -21,7 +21,7 @@
 
 </br>
 
-## 📋 <a name="table">Table of Contents</a>
+## <a name="table">📋 TABLE OF CONTENTS</a>
 
 1. 🤖 [INTRODUCTION](#introduction)
 2. ⚙️ [TECH STACK](#tech-stack)
