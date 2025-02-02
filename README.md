@@ -115,7 +115,7 @@ cd RUPANTAR_An-AI-Based-SaaS
 
 **Installation**
 
-Install The Project Dependencies Using NPM: *(* *Reuired NodeJS_V.20.9.0_LTS* *)*
+Install The Project Dependencies Using NPM: *(* *Reuired NodeJS_V.18.12.0_LTS* *)*
 
 ```bash
 npm install --legacy-peer-deps
