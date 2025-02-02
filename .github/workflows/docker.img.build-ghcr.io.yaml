@@ -1,4 +1,4 @@
-name: docker-containers-to-build-docker-image
+name: docker.img.build-ghcr.io
 
 on:
   push:
@@ -28,11 +28,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    - name: Login Into Github Container Registry
+    - name: Authenticate GHCR For Dockerization
       run: |
         docker login --username ${{ github.actor }} --password ${{ secrets.AUTH_SECRET }} ghcr.io
 
-    - name: Create .env File
+    - name: Createing Environment Variables
       run: |
         echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> .env
         echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> .env
@@ -52,13 +52,13 @@ jobs:
         echo "NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET }}" >> .env
         echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
 
-    - name: Set Docker Image Tag
-      id: image_tag
+    - name: Adding Commit Hash To Docker Image
+      id: commit_hash
       run: echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
-    - name: Build Docker Image
+    - name: Building Docker Image
       run: |
-        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.image_tag.outputs.IMAGE_TAG }}
+        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.commit_hash.outputs.IMAGE_TAG }}
 
-    - name: Push Docker Image To Registry
-      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.image_tag.outputs.IMAGE_TAG }}
+    - name: Push Docker Image To GHCR
+      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.commit_hash.outputs.IMAGE_TAG }}
