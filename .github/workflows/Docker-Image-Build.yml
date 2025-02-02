@@ -30,28 +30,7 @@ jobs:
 
     - name: Login Into Github Container Registry
       run: |
-        docker login --username aknibircse --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
-
-    - name: Create .env File
-      run: |
-        echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-        echo "NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }}" >> .env
-        echo "NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }}" >> .env
-        echo "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL }}" >> .env
-        echo "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL }}" >> .env
-        echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
-        echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> .env
-        echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> .env
-        echo "WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }}" >> .env
-        echo "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}" >> .env
-        echo "NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}" >> .env
-        echo "NEXT_PUBLIC_CLOUDINARY_API_SECRET=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_SECRET }}" >> .env
-        echo "NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${{ secrets.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET }}" >> .env
-        echo "NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME }}" >> .env
-        echo "NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL }}" >> .env
-        echo "NEXT_PUBLIC_STRIPE_SECRET_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}" >> .env
-        echo "NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET }}" >> .env
-        echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
+        docker login --username aknibircse --password ${{ secrets.DOCKER_TOKEN }} ghcr.io
 
     - name: Build Docker Image
       run: |
