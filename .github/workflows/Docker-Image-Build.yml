@@ -32,28 +32,32 @@ jobs:
       run: |
         docker login --username aknibircse --password ${{ secrets.DOCKER_TOKEN }} ghcr.io
 
+    - name: Create & Execute Environment Variables Files
+      run: chmod +x ./scripts/create-env.sh && ./scripts/create-env.sh
+
     - name: Build Docker Image
+      env:
+        NODE_ENV: ${{ secrets.NODE_ENV }}
+        NEXT_PUBLIC_CLERK_SIGN_IN_URL: ${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }}
+        NEXT_PUBLIC_CLERK_SIGN_UP_URL: ${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }}
+        NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: ${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL }}
+        NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: ${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL }}
+        MONGODB_URL: ${{ secrets.MONGODB_URL }}
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+        CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+        WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+        NEXT_PUBLIC_CLOUDINARY_API_KEY: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}
+        NEXT_PUBLIC_CLOUDINARY_API_SECRET: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_SECRET }}
+        NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET }}
+        NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME }}
+        NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL: ${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL }}
+        NEXT_PUBLIC_STRIPE_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}
+        NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET: ${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET }}
+        NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
       run: |
-        docker build \
-          --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
-          --build-arg NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }} \
-          --build-arg NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }} \
-          --build-arg NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL }} \
-          --build-arg NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL }} \
-          --build-arg MONGODB_URL=${{ secrets.MONGODB_URL }} \
-          --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }} \
-          --build-arg CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }} \
-          --build-arg WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }} \
-          --build-arg NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }} \
-          --build-arg NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }} \
-          --build-arg NEXT_PUBLIC_CLOUDINARY_API_SECRET=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_SECRET }} \
-          --build-arg NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${{ secrets.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET }} \
-          --build-arg NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME }} \
-          --build-arg NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL }} \
-          --build-arg NEXT_PUBLIC_STRIPE_SECRET_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }} \
-          --build-arg NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET }} \
-          --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }} \
-          . --tag ghcr.io/aknibircse/rupantor-ai-saas:latest
+        BUILD_ARGS=$(./scripts/create-env.sh)
+        docker build $BUILD_ARGS . --t ghcr.io/aknibircse/rupantor-ai-saas:latest
 
     - name: Push Docker Image To Registry
       run: docker push ghcr.io/aknibircse/rupantor-ai-saas:latest
