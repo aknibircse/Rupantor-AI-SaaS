@@ -22,6 +22,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4  
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -52,9 +53,13 @@ jobs:
         echo "NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET }}" >> .env
         echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
 
+    - name: Set Docker Image Tag
+      run: echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
     - name: Build Docker Image
       run: |
-        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:latest
+        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ env.IMAGE_TAG }}
 
     - name: Push Docker Image To Registry
-      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:latest
+      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:${{ env.IMAGE_TAG }}
+      
