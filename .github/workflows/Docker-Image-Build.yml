@@ -57,7 +57,7 @@ jobs:
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
       run: |
         BUILD_ARGS=$(./scripts/create-env.sh)
-        docker build $BUILD_ARGS . --tag ghcr.io/aknibircse/rupantor-ai-saas:latest
+        docker build --no-cache $BUILD_ARGS . --tag ghcr.io/aknibircse/rupantor-ai-saas:latest
 
     - name: Push Docker Image To Registry
       run: docker push ghcr.io/aknibircse/rupantor-ai-saas:latest
