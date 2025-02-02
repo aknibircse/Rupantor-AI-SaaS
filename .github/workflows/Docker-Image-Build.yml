@@ -1,4 +1,4 @@
-name: Image-Container-Build
+name: docker-containers-to-build-docker-image
 
 on:
   push:
@@ -54,12 +54,12 @@ jobs:
         echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
 
     - name: Set Docker Image Tag
-      run: echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+      id: image_tag
+      run: echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
     - name: Build Docker Image
       run: |
-        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ env.IMAGE_TAG }}
+        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.image_tag.outputs.IMAGE_TAG }}
 
     - name: Push Docker Image To Registry
-      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:${{ env.IMAGE_TAG }}
-      
+      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.image_tag.outputs.IMAGE_TAG }}
