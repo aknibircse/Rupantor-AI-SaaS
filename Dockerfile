@@ -4,7 +4,6 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Define Build Arguments
-ARG NODE_ENV
 ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL
 ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL
 ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
@@ -54,7 +53,7 @@ RUN npm cache clean --force && \
 COPY . .
 
 # PRODUCTION BUILD FOR THIS APP 
-RUN npm run build
+RUN npm run build:prod
 
 # STAGE-2: FINAL DOCKER IMAGE BUILDS FOR THIS APP
 FROM node:18-alpine AS runner
@@ -85,7 +84,6 @@ ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/package-lock.json ./package-lock.json
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/.next ./.dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 
@@ -113,4 +111,4 @@ ENV PORT=3000 \
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
 # RUN THIS APP IN PRODUCTION MODE
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:prod"]

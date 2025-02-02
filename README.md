@@ -118,7 +118,7 @@ cd RUPANTAR_An-AI-Based-SaaS
 Install The Project Dependencies Using NPM: *(* *Reuired NodeJS_V.20.9.0_LTS* *)*
 
 ```bash
-npm install --save-dev
+npm install --legacy-peer-deps
 ```
 
 </br>
@@ -169,7 +169,7 @@ Replace The Placeholder Values with Your Actual Respective Account Credentials. 
 **Run This Project In Development Mode**
 
 ```bash
-npm run dev
+npm run start:dev
 ```
 
 </br>
@@ -177,7 +177,7 @@ npm run dev
 **Build Production Version Of This Project**
 
 ```bash
-npm run build
+npm run build:prod
 ```
 
 </br>
@@ -185,14 +185,14 @@ npm run build
 **Running The Build Version Of This Project**
 
 ```bash
-npm run start
+npm run start:prod
 ```
 <br/>
 
 **Validate ESLint Rule For Errors & Warnings**
 
 ```bash
-npm run lint
+npm run valid:lint
 ```
 </br>
 
