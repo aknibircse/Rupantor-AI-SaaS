@@ -1,12 +1,12 @@
 {
   "name": "RUPANTOR-AI",
-  "version": "MVP_-v.16.12.24_-Last -Release",
+  "version": "_v.02.02.24_--Release",
   "private": true,
   "scripts": {
     "start:dev": "next dev",
     "build:prod": "next build",
     "start:prod": "next start",
-    "lint": "next lint"
+    "validate:lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.6",
