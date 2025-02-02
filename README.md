@@ -128,10 +128,6 @@ npm install --save-dev
 Create a New File Named `.env.local` in The Root of Your Project & Add The Following Variables with Their Values:
 
 ```env
-# ENVIRONMENT CONFIGURATION MODE [ USE "development" FOR DEVELOPMENT & "production" FOR PRODUCTION ]
-
-NODE_ENV = 
-
 # NEXT.JS CONFIGURATION
 
 NEXT_PUBLIC_CLERK_SIGN_IN_URL = 
@@ -2916,7 +2912,6 @@ COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 3000
 
 # SETTING ENVIRONMENT VARIABLE FOR PRODUCTION
-ENV NODE_ENV production
 ENV PORT 3000
 
 # RUN THIS APP IN PRODUCTION MODE
