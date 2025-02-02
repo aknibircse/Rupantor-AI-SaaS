@@ -27,8 +27,9 @@
 2. ⚙️ [TECH STACK](#tech-stack)
 3. 🔋 [FEATURES](#features)
 4. 🤸 [QUICK START](#quick-start)
-5. 🕸️ [CODE SNIPPETS](#snippets)
-6. 📃 [COPYRIGHTS](#copyright)
+5. 🐳 [DOCKER SETUP & USAGE](#docker-setup-and-usage)
+6. 🕸️ [CODE SNIPPETS](#snippets)
+7. 📃 [COPYRIGHTS](#copyright)
 
 </br>
 
@@ -127,7 +128,7 @@ npm install --save-dev
 Create a New File Named `.env.local` in The Root of Your Project & Add The Following Variables with Their Values:
 
 ```env
-# ENVIRONMENT CONFIGURATION MODE [ USE 0 FOR DEVELOPMENT & 1 FOR PRODUCTION ]
+# ENVIRONMENT CONFIGURATION MODE [ USE "development" FOR DEVELOPMENT & "production" FOR PRODUCTION ]
 
 NODE_ENV = 
 
@@ -177,7 +178,7 @@ npm run start:dev
 
 </br>
 
-**Start Production Build Of This Project**
+**Build Production Version Of This Project**
 
 ```bash
 npm run build:prod
@@ -192,7 +193,217 @@ npm run start:prod
 ```
 <br/>
 
+**Validate ESLint Rule For Errors & Warnings**
+
+```bash
+npm run validate:lint
+```
+</br>
+
 Open Your Browser & View The Project at: ***[http://localhost:3000](http://localhost:3000)***
+
+<br/>
+
+## 🐳 Docker Setup & Usage
+
+### Prerequisites
+- Docker Installed On Your System.
+- Docker Compose Installed On Your System.
+- `.env` File With Required Environment Variables.
+
+### Docker Commands
+
+1. **Build & Run The Application**
+```bash
+# Build & Start All Services
+docker compose up --build
+
+# Run In Detached Mode (Background)
+docker compose up -d --build
+```
+
+2. **Stop The Application**
+```bash
+# Stop All Services
+docker compose down
+
+# Stop And Remove Volumes
+docker compose down -v
+```
+
+3. **View Logs**
+```bash
+# View Logs Of All Services
+docker compose logs
+
+# Follow Logs In Real-Time
+docker compose logs -f
+
+# View logs Of Specific Service
+docker compose logs app
+docker compose logs mongodb
+```
+
+4. **Container Management**
+```bash
+# List Running Containers
+docker compose ps
+
+# Restart Services
+docker compose restart
+
+# Restart Specific Service
+docker compose restart app
+```
+
+### Project Structure
+- `Dockerfile`: Multi-Stage Build Configuration For The Next.js Application.
+- `compose.yaml`: Docker Compose Configuration Defining Services:
+  - `app`: Next.js Application Service.
+  - `mongodb`: MongoDB Database Service.
+  - `nginx`: Reverse Proxy Service. (If Configured)
+
+### Environment Variables
+Make Sure to Create a `.env` File In The Project Root With The Following Variables:
+```plaintext
+# Required Environment Variables For The Application
+NODE_ENV=production
+MONGODB_URI=mongodb://mongodb:27017/rupantor
+# Add Other Required Environment Variables
+```
+
+### Networking
+- The Application Runs On Port 3000.
+- MongoDB Runs On Default Port 27017.
+- Services Are Connected Through The `rupantor_network` Network.
+
+### Health Checks
+- Built-In Health Checks Are Configured For Both The Application & MongoDB.
+- Services Will Automatically Restart If They Become Unhealthy.
+
+### Production Deployment
+For Production Deployment:
+1. Ensure All Environment Variables Are Properly Set.
+2. Use Production-Grade MongoDB Credentials.
+3. Consider Using Docker Volumes For Persistent Data.
+4. Enable & Configure SSL/TLS For Exposing To The Internet
+
+### Troubleshooting
+1. **Container Fails To Start**
+   - Check Logs: `docker compose logs app`
+   - Verify Environment Variables.
+   - Ensure Ports Are Not In Use.
+
+2. **MongoDB Connection Issues**
+   - Ensure MongoDB Container Is Healthy.
+   - Check Network Connectivity.
+   - Verify MongoDB Credentials.
+
+3. **Performance Issues**
+   - Monitor Container Resources: `docker stats`
+   - Check Application Logs For Bottlenecks.
+   - Consider Scaling Services If Needed.
+
+</br>
+## 🐳 Docker Setup & Usage
+</br>
+### Prerequisites
+- Docker Installed On Your System.
+- Docker Compose Installed On Your System.
+- `.env` File With Required Environment Variables.
+
+### Docker Commands
+
+1. **Build & Run The Application**
+```bash
+# Build & Start All Services
+docker compose up --build
+
+# Run In Detached Mode (Background)
+docker compose up -d --build
+```
+
+2. **Stop The Application**
+```bash
+# Stop All Services
+docker compose down
+
+# Stop And Remove Volumes
+docker compose down -v
+```
+
+3. **View Logs**
+```bash
+# View Logs Of All Services
+docker compose logs
+
+# Follow Logs In Real-Time
+docker compose logs -f
+
+# View logs Of Specific Service
+docker compose logs app
+docker compose logs mongodb
+```
+
+4. **Container Management**
+```bash
+# List Running Containers
+docker compose ps
+
+# Restart Services
+docker compose restart
+
+# Restart Specific Service
+docker compose restart app
+```
+
+### Project Structure
+- `Dockerfile`: Multi-Stage Build Configuration For The Next.js Application.
+- `compose.yaml`: Docker Compose Configuration Defining Services:
+  - `app`: Next.js Application Service.
+  - `mongodb`: MongoDB Database Service.
+  - `nginx`: Reverse Proxy Service. (If Configured)
+
+### Environment Variables
+Make Sure to Create a `.env` File In The Project Root With The Following Variables:
+```plaintext
+# Required Environment Variables For The Application
+NODE_ENV=production
+MONGODB_URI=mongodb://mongodb:27017/rupantor
+# Add Other Required Environment Variables
+```
+
+### Networking
+- The Application Runs On Port 3000.
+- MongoDB Runs On Default Port 27017.
+- Services Are Connected Through The `rupantor_network` Network.
+
+### Health Checks
+- Built-In Health Checks Are Configured For Both The Application & MongoDB.
+- Services Will Automatically Restart If They Become Unhealthy.
+
+### Production Deployment
+For Production Deployment:
+1. Ensure All Environment Variables Are Properly Set.
+2. Use Production-Grade MongoDB Credentials.
+3. Consider Using Docker Volumes For Persistent Data.
+4. Enable & Configure SSL/TLS For Exposing To The Internet
+
+### Troubleshooting
+1. **Container Fails To Start**
+   - Check Logs: `docker compose logs app`
+   - Verify Environment Variables.
+   - Ensure Ports Are Not In Use.
+
+2. **MongoDB Connection Issues**
+   - Ensure MongoDB Container Is Healthy.
+   - Check Network Connectivity.
+   - Verify MongoDB Credentials.
+
+3. **Performance Issues**
+   - Monitor Container Resources: `docker stats`
+   - Check Application Logs For Bottlenecks.
+   - Consider Scaling Services If Needed.
 
 </br>
 
@@ -1030,18 +1241,13 @@ export const InsufficientCreditsModal = () => {
             Oops.... Looks like you&#39;ve run out of free credits!
           </AlertDialogTitle>
 
-          <AlertDialogDescription className="p-16-regular py-3">
+          <AlertDialogDescription className="p-16-regular">
             No worries, though - you can keep enjoying our services by grabbing
             more credits.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel
-            className="button w-full bg-purple-100 text-dark-400"
-            onClick={() => router.push("/profile")}
-          >
-            No, Cancel
-          </AlertDialogCancel>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="button w-full bg-purple-gradient  bg-cover"
             onClick={() => router.push("/credits")}
@@ -2557,51 +2763,115 @@ export default Profile;
 <summary><code>nginx.conf</code></summary>
 
 ```conf
-server {
-    listen 80;
-    server_name rupantor.aknibir.dev;
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log warn;
+pid /var/run/nginx.pid;
 
-    # REDIRECTING HTTP TO HTTPS
-    return 301 https://$host$request_uri;
-    }
+events {
+    worker_connections 1024;
+}
 
-server {
-    listen 443 ssl;
-    server_name rupantor.aknibir.dev;
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    client_max_body_size 100M;
 
-    # SSL CONFIGURATION
-    ssl_certificate /etc/letsencrypt/live/rupantor.aknibir.dev/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/rupantor.aknibir.dev/privkey.pem;
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384';
-    ssl_prefer_server_ciphers off;
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_timeout 1d;
+    # Logging Settings
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log /var/log/nginx/access.log main;
 
-    # REVERSE PROXY CONFIGURATION
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect off;
-    }
+    # Optimization
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
 
-    # ADDITIONAL SECURITY CONFIGURATION
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header X-Content-Type-Options "nosniff";
+    # Gzip Settings
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-    # ERROR HANDELING CONFIGURATION
-    error_page 404 /404.html;
-    location = /404.html {
+    # Security Headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+
+    server {
+        listen 80;
+        server_name rupantor.aknibir.dev;
         root /usr/share/nginx/html;
-    }
-    error_page 500 502 503 504 /50x.html;
-    location = /50x.html {
-        root /usr/share/nginx/html;
+        index index.html;
+
+        # Next.js API and Dynamic Routes
+        location / {
+            proxy_pass http://app:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_cache_bypass $http_upgrade;
+            proxy_buffering off;
+            proxy_read_timeout 300;
+            proxy_connect_timeout 300;
+
+            # WebSocket Support
+            proxy_set_header Connection "Upgrade";
+        }
+
+        # Static Files
+        location /_next/static/ {
+            proxy_pass http://app:3000;
+            proxy_cache_bypass $http_upgrade;
+            proxy_set_header Host $host;
+            expires 365d;
+            access_log off;
+        }
+
+        # Next.js Public Files
+        location /public/ {
+            proxy_pass http://app:3000;
+            proxy_cache_bypass $http_upgrade;
+            proxy_set_header Host $host;
+            expires 365d;
+            access_log off;
+        }
+
+        # Error Pages
+        error_page 404 /404.html;
+        location = /404.html {
+            internal;
+        }
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            internal;
+        }
+
+        # Additional Security Headers
+        location ~ /\. {
+            deny all;
+        }
+
+        location = /favicon.ico {
+            access_log off;
+            log_not_found off;
+        }
+
+        location = /robots.txt {
+            access_log off;
+            log_not_found off;
+        }
     }
 }
 
@@ -2657,73 +2927,86 @@ CMD ["npm", "start:prod"]
 </details>
 
 <details>
-<summary><code>docker-compose.yaml</code></summary>
+<summary><code>compose.yaml</code></summary>
 
 ```yaml
-version: '3.8'
+name: 'build-docker-image-container'
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+      target: runner
     ports:
       - "3000:3000"  # EXPOSING PORT FOR INTERNAL COMMUNICATIONS
+    env_file:
+      - .env
     environment:
-      NODE_ENV: "${NODE_ENV}"
-      NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL: "${NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL}"
-      MONGODB_URL: "${MONGODB_URL}"
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}"
-      CLERK_SECRET_KEY: "${CLERK_SECRET_KEY}"
-      WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
-      NEXT_PUBLIC_CLERK_SIGN_IN_URL: "${NEXT_PUBLIC_CLERK_SIGN_IN_URL}"
-      NEXT_PUBLIC_CLERK_SIGN_UP_URL: "${NEXT_PUBLIC_CLERK_SIGN_UP_URL}"
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: "${NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}"
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: "${NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}"
-      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}"
-      NEXT_PUBLIC_CLOUDINARY_API_KEY: "${NEXT_PUBLIC_CLOUDINARY_API_KEY}"
-      NEXT_PUBLIC_CLOUDINARY_API_SECRET: "${NEXT_PUBLIC_CLOUDINARY_API_SECRET}"
-      NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: "${NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}"
-      NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME: "${NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME}"
-      NEXT_PUBLIC_STRIPE_SECRET_KEY: "${NEXT_PUBLIC_STRIPE_SECRET_KEY}"
-      NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET: "${NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET}"
-      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}"
+      - NODE_ENV=production
     depends_on:
-      - mongodb
-    volumes:
-      - .:/app
-    command: npm start:prod  # STARTING BUILD VERSION OF THIS APP
+      mongodb:
+        condition: service_healthy
+    networks:
+      - rupantor_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   mongodb:
     image: mongo:6.0
     container_name: mongodb
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - rupantor_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   nginx:
     image: nginx:latest
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  # MOUNT THE CUSTOM NGINX CONFIGURATION
-      - /etc/letsencrypt:/etc/letsencrypt  # MOUNT LET'S NCRYPT CERTIFICATES
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./public:/usr/share/nginx/html:ro
     ports:
       - "80:80"
-      - "443:443"
     depends_on:
-      - app
-    command: /bin/bash -c "nginx -g 'daemon off;'"
+      app:
+        condition: service_healthy
+    networks:
+      - rupantor_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  rupantor_network:
+    driver: bridge
 
 volumes:
   mongodb_data:
-
+    driver: local
 ```
 
 </details>
 <br/>
+
+
 
 ## 📃 <a name="copyright">COPYRIGHTS</a>
 *©* ALL RIGHTS OF THIS PROJECT IS RESERVED BY ***[AK NIBIR](https://aknibir.dev)*** -- 📃 UNDER ***[MIT](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)*** LISENCE.
