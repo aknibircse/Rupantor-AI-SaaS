@@ -54,7 +54,7 @@ RUN npm install
 COPY . .
 
 # PRODUCTION BUILD FOR THIS APP 
-RUN npm run build:prod
+RUN npm run build
 
 # STAGE-2: FINAL DOCKER IMAGE BUILDS FOR THIS APP
 FROM node:18-alpine AS runner
@@ -85,6 +85,7 @@ ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/package-lock.json ./package-lock.json
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.next ./.dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 
@@ -113,4 +114,4 @@ ENV NODE_ENV=$NODE_ENV \
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
 # RUN THIS APP IN PRODUCTION MODE
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start"]

@@ -173,7 +173,7 @@ Replace The Placeholder Values with Your Actual Respective Account Credentials. 
 **Run This Project In Development Mode**
 
 ```bash
-npm run start:dev
+npm run dev
 ```
 
 </br>
@@ -189,14 +189,14 @@ npm run build
 **Running The Build Version Of This Project**
 
 ```bash
-npm run start:prod
+npm run start
 ```
 <br/>
 
 **Validate ESLint Rule For Errors & Warnings**
 
 ```bash
-npm run validate:lint
+npm run lint
 ```
 </br>
 
@@ -2920,7 +2920,7 @@ ENV NODE_ENV production
 ENV PORT 3000
 
 # RUN THIS APP IN PRODUCTION MODE
-CMD ["npm", "start:prod"]
+CMD ["npm", "start"]
 
 ```
 

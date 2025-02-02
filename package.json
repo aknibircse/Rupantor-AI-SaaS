@@ -3,10 +3,10 @@
   "version": "_v.02.02.24_--Release",
   "private": true,
   "scripts": {
-    "start:dev": "next dev",
+    "dev": "next dev",
     "build": "next build",
-    "start:prod": "next start",
-    "validate:lint": "next lint"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.6",
