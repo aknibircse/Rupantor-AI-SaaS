@@ -262,111 +262,23 @@ docker compose restart app
 ### Environment Variables
 Make Sure to Create a `.env` File In The Project Root With The Following Variables:
 ```plaintext
-# Required Environment Variables For The Application
-NODE_ENV=production
-MONGODB_URI=mongodb://mongodb:27017/rupantor
-# Add Other Required Environment Variables
-```
-
-### Networking
-- The Application Runs On Port 3000.
-- MongoDB Runs On Default Port 27017.
-- Services Are Connected Through The `rupantor_network` Network.
-
-### Health Checks
-- Built-In Health Checks Are Configured For Both The Application & MongoDB.
-- Services Will Automatically Restart If They Become Unhealthy.
-
-### Production Deployment
-For Production Deployment:
-1. Ensure All Environment Variables Are Properly Set.
-2. Use Production-Grade MongoDB Credentials.
-3. Consider Using Docker Volumes For Persistent Data.
-4. Enable & Configure SSL/TLS For Exposing To The Internet
-
-### Troubleshooting
-1. **Container Fails To Start**
-   - Check Logs: `docker compose logs app`
-   - Verify Environment Variables.
-   - Ensure Ports Are Not In Use.
-
-2. **MongoDB Connection Issues**
-   - Ensure MongoDB Container Is Healthy.
-   - Check Network Connectivity.
-   - Verify MongoDB Credentials.
-
-3. **Performance Issues**
-   - Monitor Container Resources: `docker stats`
-   - Check Application Logs For Bottlenecks.
-   - Consider Scaling Services If Needed.
-
-</br>
-## 🐳 Docker Setup & Usage
-</br>
-### Prerequisites
-- Docker Installed On Your System.
-- Docker Compose Installed On Your System.
-- `.env` File With Required Environment Variables.
-
-### Docker Commands
-
-1. **Build & Run The Application**
-```bash
-# Build & Start All Services
-docker compose up --build
-
-# Run In Detached Mode (Background)
-docker compose up -d --build
-```
-
-2. **Stop The Application**
-```bash
-# Stop All Services
-docker compose down
-
-# Stop And Remove Volumes
-docker compose down -v
-```
-
-3. **View Logs**
-```bash
-# View Logs Of All Services
-docker compose logs
-
-# Follow Logs In Real-Time
-docker compose logs -f
-
-# View logs Of Specific Service
-docker compose logs app
-docker compose logs mongodb
-```
-
-4. **Container Management**
-```bash
-# List Running Containers
-docker compose ps
-
-# Restart Services
-docker compose restart
-
-# Restart Specific Service
-docker compose restart app
-```
-
-### Project Structure
-- `Dockerfile`: Multi-Stage Build Configuration For The Next.js Application.
-- `compose.yaml`: Docker Compose Configuration Defining Services:
-  - `app`: Next.js Application Service.
-  - `mongodb`: MongoDB Database Service.
-  - `nginx`: Reverse Proxy Service. (If Configured)
-
-### Environment Variables
-Make Sure to Create a `.env` File In The Project Root With The Following Variables:
-```plaintext
-# Required Environment Variables For The Application
-NODE_ENV=production
-MONGODB_URI=mongodb://mongodb:27017/rupantor
-# Add Other Required Environment Variables
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=
+MONGODB_URL=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+WEBHOOK_SECRET=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+NEXT_PUBLIC_CLOUDINARY_API_KEY=
+NEXT_PUBLIC_CLOUDINARY_API_SECRET=
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
+NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=
+NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=
+NEXT_PUBLIC_STRIPE_SECRET_KEY=
+NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 ```
 
 ### Networking
@@ -2885,25 +2797,85 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# COPYING package.json & package-lock.json (IF EXISTS) FOR DPENDANCY INSTALLATION
-COPY package*.json ./
+# Define Build Arguments
+ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL
+ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL
+ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
+ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
+ARG MONGODB_URL
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+ARG CLERK_SECRET_KEY
+ARG WEBHOOK_SECRET
+ARG NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+ARG NEXT_PUBLIC_CLOUDINARY_API_KEY
+ARG NEXT_PUBLIC_CLOUDINARY_API_SECRET
+ARG NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+ARG NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME
+ARG NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL
+ARG NEXT_PUBLIC_STRIPE_SECRET_KEY
+ARG NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
-# INSTALLING DEPENDENCIES
-RUN npm install
+# Set Environment Variables For Build Stage
+ENV NEXT_PUBLIC_CLERK_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_SIGN_IN_URL \
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_SIGN_UP_URL \
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL \
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL \
+    MONGODB_URL=$MONGODB_URL \
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY \
+    CLERK_SECRET_KEY=$CLERK_SECRET_KEY \
+    WEBHOOK_SECRET=$WEBHOOK_SECRET \
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME \
+    NEXT_PUBLIC_CLOUDINARY_API_KEY=$NEXT_PUBLIC_CLOUDINARY_API_KEY \
+    NEXT_PUBLIC_CLOUDINARY_API_SECRET=$NEXT_PUBLIC_CLOUDINARY_API_SECRET \
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=$NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET \
+    NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=$NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME \
+    NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=$NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL \
+    NEXT_PUBLIC_STRIPE_SECRET_KEY=$NEXT_PUBLIC_STRIPE_SECRET_KEY \
+    NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=$NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET \
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
+# COPYING package.json & package-lock.json (IF EXISTS) FOR DPENDANCY INSTALLATION
+COPY package.json ./
+COPY package-lock.json ./
+
+# CACHE CLEANING & INSTALLING DEPENDENCIES
+RUN npm cache clean --force && \
+    npm install --legacy-peer-deps
 
 # COPING REST ESSENTIALS OF THIS APP
 COPY . .
 
 # PRODUCTION BUILD FOR THIS APP 
-RUN npm run build
+RUN npm run build:prod
 
 # STAGE-2: FINAL DOCKER IMAGE BUILDS FOR THIS APP
 FROM node:18-alpine AS runner
 
 WORKDIR /app
 
+# Define Build Arguments Again For The Final Stage
+ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL
+ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL
+ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
+ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
+ARG MONGODB_URL
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+ARG CLERK_SECRET_KEY
+ARG WEBHOOK_SECRET
+ARG NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+ARG NEXT_PUBLIC_CLOUDINARY_API_KEY
+ARG NEXT_PUBLIC_CLOUDINARY_API_SECRET
+ARG NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+ARG NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME
+ARG NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL
+ARG NEXT_PUBLIC_STRIPE_SECRET_KEY
+ARG NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
 # COPY ESSENTIALS FROM BUILDER'S STAGE
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
@@ -2911,11 +2883,28 @@ COPY --from=builder /app/node_modules ./node_modules
 # PORT EXPOSING FOR APP ACCESS
 EXPOSE 3000
 
-# SETTING ENVIRONMENT VARIABLE FOR PRODUCTION
-ENV PORT 3000
+# Set Environment Variables From Build Arguments
+ENV PORT=3000 \
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_SIGN_IN_URL \
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_SIGN_UP_URL \
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL \
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL \
+    MONGODB_URL=$MONGODB_URL \
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY \
+    CLERK_SECRET_KEY=$CLERK_SECRET_KEY \
+    WEBHOOK_SECRET=$WEBHOOK_SECRET \
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME \
+    NEXT_PUBLIC_CLOUDINARY_API_KEY=$NEXT_PUBLIC_CLOUDINARY_API_KEY \
+    NEXT_PUBLIC_CLOUDINARY_API_SECRET=$NEXT_PUBLIC_CLOUDINARY_API_SECRET \
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=$NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET \
+    NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=$NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME \
+    NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=$NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL \
+    NEXT_PUBLIC_STRIPE_SECRET_KEY=$NEXT_PUBLIC_STRIPE_SECRET_KEY \
+    NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=$NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET \
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
 # RUN THIS APP IN PRODUCTION MODE
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]
 
 ```
 
@@ -2937,8 +2926,6 @@ services:
       - "3000:3000"  # EXPOSING PORT FOR INTERNAL COMMUNICATIONS
     env_file:
       - .env
-    environment:
-      - NODE_ENV=production
     depends_on:
       mongodb:
         condition: service_healthy
