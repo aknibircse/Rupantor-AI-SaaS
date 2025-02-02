@@ -107,8 +107,8 @@ Make Sure, You have The Following Dependancies Installed on Your Machine:
 **Cloning The Repository**
 
 ```bash
-git clone https://github.com/aknibircse/RUPANTAR_An-AI-Based-SaaS.git
-cd RUPANTAR_An-AI-Based-SaaS
+git clone https://github.com/aknibircse/rupantor-ai-saas.git
+cd rupantor-ai-saas
 ```
 
 </br>
@@ -2792,118 +2792,46 @@ http {
 <summary><code>dockerfile</code></summary>
 
 ```dockerfile
-# STAGE-1: CONFIGURING DOCKER IMAGE
+# STAGE 1: BUILD IMAGE
 FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Define Build Arguments
-ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL
-ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL
-ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
-ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
-ARG MONGODB_URL
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-ARG CLERK_SECRET_KEY
-ARG WEBHOOK_SECRET
-ARG NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-ARG NEXT_PUBLIC_CLOUDINARY_API_KEY
-ARG NEXT_PUBLIC_CLOUDINARY_API_SECRET
-ARG NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-ARG NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME
-ARG NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL
-ARG NEXT_PUBLIC_STRIPE_SECRET_KEY
-ARG NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
-ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+# Copy Package Files First For Caching Dependencies
+COPY package.json package-lock.json ./
 
-# Set Environment Variables For Build Stage
-ENV NEXT_PUBLIC_CLERK_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_SIGN_IN_URL \
-    NEXT_PUBLIC_CLERK_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_SIGN_UP_URL \
-    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL \
-    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL \
-    MONGODB_URL=$MONGODB_URL \
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY \
-    CLERK_SECRET_KEY=$CLERK_SECRET_KEY \
-    WEBHOOK_SECRET=$WEBHOOK_SECRET \
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME \
-    NEXT_PUBLIC_CLOUDINARY_API_KEY=$NEXT_PUBLIC_CLOUDINARY_API_KEY \
-    NEXT_PUBLIC_CLOUDINARY_API_SECRET=$NEXT_PUBLIC_CLOUDINARY_API_SECRET \
-    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=$NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET \
-    NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=$NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME \
-    NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=$NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL \
-    NEXT_PUBLIC_STRIPE_SECRET_KEY=$NEXT_PUBLIC_STRIPE_SECRET_KEY \
-    NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=$NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET \
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+# Install Dependencies
+RUN npm cache clean --force && npm install --legacy-peer-deps
 
-# COPYING package.json & package-lock.json (IF EXISTS) FOR DPENDANCY INSTALLATION
-COPY package.json ./
-COPY package-lock.json ./
-
-# CACHE CLEANING & INSTALLING DEPENDENCIES
-RUN npm cache clean --force && \
-    npm install --legacy-peer-deps
-
-# COPING REST ESSENTIALS OF THIS APP
+# Copy The Rest Of The Application Files
 COPY . .
 
-# PRODUCTION BUILD FOR THIS APP 
+# Load Environment Variables From the .env File Created In The GitHub Actions Workflow
+RUN if [ -f .env ]; then export $(grep -v '^#' .env | xargs); fi
+
+# Build The Aplication
 RUN npm run build:prod
 
-# STAGE-2: FINAL DOCKER IMAGE BUILDS FOR THIS APP
+# STAGE 2: RUN IMAGE
 FROM node:18-alpine AS runner
 
 WORKDIR /app
 
-# Define Build Arguments Again For The Final Stage
-ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL
-ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL
-ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
-ARG NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
-ARG MONGODB_URL
-ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-ARG CLERK_SECRET_KEY
-ARG WEBHOOK_SECRET
-ARG NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-ARG NEXT_PUBLIC_CLOUDINARY_API_KEY
-ARG NEXT_PUBLIC_CLOUDINARY_API_SECRET
-ARG NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-ARG NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME
-ARG NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL
-ARG NEXT_PUBLIC_STRIPE_SECRET_KEY
-ARG NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
-ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-
-# COPY ESSENTIALS FROM BUILDER'S STAGE
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/package-lock.json ./package-lock.json
+# Copy Built Files & Dependencies From The Builder Stage
+COPY --from=builder /app/package.json package.json
+COPY --from=builder /app/package-lock.json package-lock.json
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 
-# PORT EXPOSING FOR APP ACCESS
+# Expose Application Port
 EXPOSE 3000
 
-# Set Environment Variables From Build Arguments
-ENV PORT=3000 \
-    NEXT_PUBLIC_CLERK_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_SIGN_IN_URL \
-    NEXT_PUBLIC_CLERK_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_SIGN_UP_URL \
-    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL \
-    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL \
-    MONGODB_URL=$MONGODB_URL \
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY \
-    CLERK_SECRET_KEY=$CLERK_SECRET_KEY \
-    WEBHOOK_SECRET=$WEBHOOK_SECRET \
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=$NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME \
-    NEXT_PUBLIC_CLOUDINARY_API_KEY=$NEXT_PUBLIC_CLOUDINARY_API_KEY \
-    NEXT_PUBLIC_CLOUDINARY_API_SECRET=$NEXT_PUBLIC_CLOUDINARY_API_SECRET \
-    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=$NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET \
-    NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=$NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME \
-    NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=$NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL \
-    NEXT_PUBLIC_STRIPE_SECRET_KEY=$NEXT_PUBLIC_STRIPE_SECRET_KEY \
-    NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=$NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET \
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+# Load Environment Variables From The .env File
+ENV PORT=3000
+COPY .env .env
 
-# RUN THIS APP IN PRODUCTION MODE
+# Run The Application
 CMD ["npm", "run", "start:prod"]
 
 ```
@@ -2988,6 +2916,78 @@ volumes:
 </details>
 <br/>
 
+<details>
+<summary><code>docker.img.build-ghcr.io.yaml</code></summary>
+
+```yaml
+name: docker-containers-to-build-docker-image
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        node-version: [18.12.0]
+
+    steps:
+    - uses: actions/checkout@v4  
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Login Into Github Container Registry
+      run: |
+        docker login --username ${{ github.actor }} --password ${{ secrets.AUTH_SECRET }} ghcr.io
+
+    - name: Create .env File
+      run: |
+        echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> .env
+        echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> .env
+        echo "NEXT_PUBLIC_CLERK_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }}" >> .env
+        echo "NEXT_PUBLIC_CLERK_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }}" >> .env
+        echo "NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL }}" >> .env
+        echo "NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL }}" >> .env
+        echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
+        echo "WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }}" >> .env
+        echo "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}" >> .env
+        echo "NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}" >> .env
+        echo "NEXT_PUBLIC_CLOUDINARY_API_SECRET=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_SECRET }}" >> .env
+        echo "NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${{ secrets.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET }}" >> .env
+        echo "NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_BUCKET_NAME }}" >> .env
+        echo "NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_CHECKOUT_URL }}" >> .env
+        echo "NEXT_PUBLIC_STRIPE_SECRET_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_SECRET_KEY }}" >> .env
+        echo "NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=${{ secrets.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET }}" >> .env
+        echo "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}" >> .env
+
+    - name: Set Docker Image Tag
+      id: image_tag
+      run: echo "IMAGE_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
+
+    - name: Build Docker Image
+      run: |
+        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.image_tag.outputs.IMAGE_TAG }}
+
+    - name: Push Docker Image To Registry
+      run: docker push ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.image_tag.outputs.IMAGE_TAG }}
+```
+
+</details>
+<br/>
 
 
 ## 📃 <a name="copyright">COPYRIGHTS</a>

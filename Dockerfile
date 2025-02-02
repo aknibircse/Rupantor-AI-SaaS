@@ -12,7 +12,7 @@ RUN npm cache clean --force && npm install --legacy-peer-deps
 # Copy The Rest Of The Application Files
 COPY . .
 
-# Load Environment Variables from the .env File Created in the GitHub Actions Workflow
+# Load Environment Variables From the .env File Created In The GitHub Actions Workflow
 RUN if [ -f .env ]; then export $(grep -v '^#' .env | xargs); fi
 
 # Build The Aplication
