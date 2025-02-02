@@ -47,8 +47,11 @@ ENV NODE_ENV=$NODE_ENV \
 COPY package.json ./
 COPY package-lock.json ./
 
+# CACHE CLEANING
+RUN npm cache clean--force
+
 # INSTALLING DEPENDENCIES
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # COPING REST ESSENTIALS OF THIS APP
 COPY . .
