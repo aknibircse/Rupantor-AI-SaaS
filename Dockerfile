@@ -61,7 +61,7 @@ FROM node:18-alpine AS runner
 
 WORKDIR /app
 
-# Define build arguments again for the final stage
+# Define Build Arguments Again For The Final Stage
 ARG NODE_ENV
 ARG NEXT_PUBLIC_CLERK_SIGN_IN_URL
 ARG NEXT_PUBLIC_CLERK_SIGN_UP_URL

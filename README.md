@@ -181,7 +181,7 @@ npm run start:dev
 **Build Production Version Of This Project**
 
 ```bash
-npm run build:prod
+npm run build
 ```
 
 </br>
