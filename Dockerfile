@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # PRODUCTION BUILD FOR THIS APP 
-RUN npm run build
+RUN npm run build:prod
 
 # STAGE-2: FINAL DOCKER IMAGE BUILDS FOR THIS APP
 FROM node:18-alpine AS runner
@@ -34,4 +34,4 @@ ENV NODE_ENV production
 ENV PORT 3000
 
 # RUN THIS APP IN PRODUCTION MODE
-CMD ["npm", "start:prod"]
+CMD ["npm", "run", "start:prod"]
