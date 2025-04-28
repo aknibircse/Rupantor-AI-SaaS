@@ -107,8 +107,8 @@ Make Sure, You have The Following Dependancies Installed on Your Machine:
 **Cloning The Repository**
 
 ```bash
-git clone https://github.com/aknibircse/rupantor-ai-saas.git
-cd rupantor-ai-saas
+git clone https://github.com/aknibircse/Rupantor-AI-SaaS.git
+cd Rupantor-AI-SaaS
 ```
 
 </br>
