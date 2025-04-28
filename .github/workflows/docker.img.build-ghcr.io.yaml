@@ -58,7 +58,7 @@ jobs:
 
     - name: Building Docker Image
       run: |
-        docker build --no-cache . --tag ghcr.io/aknibircse/Rupantor-AI-SaaS:${{ steps.commit_hash.outputs.IMAGE_TAG }}
+        docker build --no-cache . --tag ghcr.io/aknibircse/rupantor-ai-saas:${{ steps.commit_hash.outputs.IMAGE_TAG }}
 
     - name: Push Docker Image To GHCR
       run: docker push ghcr.io/aknibircse/Rupantor-AI-SaaS:${{ steps.commit_hash.outputs.IMAGE_TAG }}
